@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: watchtower
+    volumes:
+      - ./var/data/:/var/lib/postgresql/data/
+    network_mode: "host"
+
+  adminer:
+    image: 'adminer:latest'
+    ports:
+      - 8082:8080
+    links:
+      - postgres
+
+  swagger-ui:
+    image: 'swaggerapi/swagger-ui'
+    ports:
+      - 8088:8080
+    volumes:
+      - ./service/spec/http:/usr/share/nginx/html/swagger # our api.yml now available in internal container folder
+    environment:
+      API_URL: swagger/api.yaml
