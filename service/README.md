@@ -1,5 +1,3 @@
-
-
 To build docker image run:
 
 ```sh
