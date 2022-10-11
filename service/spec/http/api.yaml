@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: WatchTower API
+  description: WatchTower REST service
+  version: 0.1.0
+servers:
+  - url: /api/v1
+paths:
+  /movies:
+    get:
+      summary: Returns a list of movies.
+      responses:
+        '200':
+          description: A JSON array of movies record
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+    post:
+      summary: Creates a new movie record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: A newly created movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+  /movies/{id}:
+    get:
+      summary: Returns a specific movie.
+      responses:
+        '200':
+          description: A JSON object of movie record
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Movie'
+    patch:
+      summary: Updates a specific movie.
+      responses:
+        '200':
+          description: OK
+
+    delete:
+      summary: Deletes a specific movie.
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Record:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        poster:
+          type: string
+        description:
+          type: string
+        tmdbId:
+          type: integer
+        rating:
+          type: integer
+        watchlist:
+          type: Boolean
+
+      required:
+        - title
+        - poster
+        - description
+        - tmdbId
