@@ -1,0 +1,4 @@
+.dockerignore
+.next
+node_modules
+public
