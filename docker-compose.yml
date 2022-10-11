@@ -11,7 +11,6 @@ services:
       POSTGRES_DB: watchtower
     volumes:
       - ./var/data/:/var/lib/postgresql/data/
-    network_mode: "host"
 
   adminer:
     image: 'adminer:latest'
