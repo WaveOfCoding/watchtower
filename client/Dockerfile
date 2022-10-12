@@ -27,7 +27,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Application-specific env-vars
-ENV TMDB_API_KEY=
+ENV NEXT_PUBLIC_TMDB_API_KEY=
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
