@@ -9,7 +9,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <Fragment>
-      <Header />
+      <Header onToggleTheme={() => {}} />
       <Block width={['100%', '480px', '540px', '960px']} margin="0 auto">
         {children}
       </Block>
