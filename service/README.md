@@ -5,7 +5,7 @@ To build docker image run:
 docker-compose up -d
 
 # Stop docker containers
-docker-compse stop
+docker-compose stop
 
 # Check running containers
 docker-compose ps
