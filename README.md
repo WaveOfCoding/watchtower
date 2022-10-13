@@ -7,10 +7,14 @@ Application for managing watch-list
 To run environment use following command:
 
 ```sh
+# To run environment
 docker-compose up -d
+
+# Use `--build` flag to build images before run
+docker-compose up -d --build
 ```
 
-It will up followint services:
+It will up following services:
 
 ```sh
 - postgres:5432
