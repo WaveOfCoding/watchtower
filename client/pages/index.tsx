@@ -7,7 +7,6 @@ import { Button, SIZE, SHAPE } from 'baseui/button';
 import { Checkbox } from 'baseui/checkbox';
 import { StyledDivider, SIZE as DIVIDER_SIZE } from 'baseui/divider';
 import { useStyletron } from 'baseui';
-// import Layout from '../components/Layout';
 import FilmSelect from '../components/FilmSelect';
 import ListItem from '../components/ListItem';
 
