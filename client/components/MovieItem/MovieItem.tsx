@@ -3,9 +3,16 @@ import Link from 'next/link';
 import { HeadingSmall, ParagraphMedium } from 'baseui/typography';
 import { Block } from 'baseui/block';
 import { Tag, KIND, VARIANT } from 'baseui/tag';
+import { Badge, COLOR, HIERARCHY } from 'baseui/badge';
 import { useStyletron } from 'baseui';
+import { TMDB_IMAGES } from '../../constants';
+import { Movie } from '../../types';
 
-const ListItem = () => {
+interface MovieItemProps {
+  movie: Movie;
+}
+
+const MovieItem = ({ movie }: MovieItemProps) => {
   const [css] = useStyletron();
 
   return (
@@ -20,27 +27,33 @@ const ListItem = () => {
                 maxWidth: '100%',
                 verticalAlign: 'middle',
               })}
-              src="/fa.jpeg"
+              src={`${TMDB_IMAGES.w220}${movie.poster}`}
               alt="poster"
             />
           </Block>
           <Block flex="1" marginLeft="16px">
             <HeadingSmall $style={{ margin: '0 0 4px 0' }}>
-              Fullmetal Alchemist: The Final Alchemy (2022)
+              {movie.title}
             </HeadingSmall>
             <ParagraphMedium $style={{ margin: 0 }}>
-              The Elric brothers’ long and winding journey comes to a close in
-              this epic finale, where they must face off against an unworldly,
-              nationwide threat.
+              {movie.description}
             </ParagraphMedium>
-            <Block>
-              <Tag
-                kind={KIND.primary}
-                variant={VARIANT.solid}
-                closeable={false}
-              >
-                want to watch
-              </Tag>
+            <Block marginTop="8px">
+              {movie.watchlist ? (
+                <Tag
+                  kind={KIND.primary}
+                  variant={VARIANT.solid}
+                  closeable={false}
+                >
+                  want to watch
+                </Tag>
+              ) : (
+                <Badge
+                  color={COLOR.positive}
+                  hierarchy={HIERARCHY.primary}
+                  content={`Rating: ${movie.rating}`}
+                />
+              )}
             </Block>
           </Block>
         </Block>
@@ -49,4 +62,4 @@ const ListItem = () => {
   );
 };
 
-export default ListItem;
+export default MovieItem;
