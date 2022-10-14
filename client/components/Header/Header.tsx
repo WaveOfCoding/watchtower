@@ -17,7 +17,7 @@ const userItems = [
 ];
 
 interface HeaderProps {
-  onToggleTheme: (theme: string) => void;
+  onToggleTheme: (theme: THEMES) => void;
 }
 
 const Header = ({ onToggleTheme }: HeaderProps) => {

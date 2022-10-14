@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Head from 'next/head';
 import { Block } from 'baseui/block';
 import { StarRating } from 'baseui/rating';
@@ -7,7 +7,7 @@ import { Button, SIZE, SHAPE } from 'baseui/button';
 import { Checkbox } from 'baseui/checkbox';
 import { StyledDivider, SIZE as DIVIDER_SIZE } from 'baseui/divider';
 import { useStyletron } from 'baseui';
-import Layout from '../components/Layout';
+// import Layout from '../components/Layout';
 import FilmSelect from '../components/FilmSelect';
 import ListItem from '../components/ListItem';
 
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const [css] = useStyletron();
 
   return (
-    <Layout>
+    <Fragment>
       <Head>
         <title>Watchtower homepage</title>
         <meta name="description" content="Films watch list" />
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
         <ListItem />
         <ListItem />
       </ul>
-    </Layout>
+    </Fragment>
   );
 };
 

@@ -45,6 +45,10 @@ _Info_:
 
 - There is an issue with `nextjs` environment variables passing to docker container. There is no convinient way to provide env variables to nextjs docker container during build/runtime (e.g. set secrets via env variables). The best way to do that is to split build process into two steps: 1. build nextjs application with env's via `.env.*` (or `process.env.*`) files on CI; 2. create docker image using output from previous step.
 
-## Notes
+## Useful links
 
 - [nextjs buildtime vs runtime env variables](https://www.saltycrane.com/blog/2021/04/buildtime-vs-runtime-environment-variables-nextjs-docker/)
+
+## TODO's
+
+- Add CI stage for type checking `yarn type-check`;
