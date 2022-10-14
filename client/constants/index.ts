@@ -3,7 +3,7 @@ export const TMDB_IMAGES = {
   w220: 'https://image.tmdb.org/t/p/w220_and_h330_face',
 };
 
-export const THEMES = {
-  light: 'light-theme',
-  dark: 'dark-theme',
-};
+export enum THEMES {
+  light = 'light-theme',
+  dark = 'dark-theme',
+}
