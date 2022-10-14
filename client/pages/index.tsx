@@ -1,18 +1,34 @@
 import type { NextPage } from 'next';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import Head from 'next/head';
-import { Block } from 'baseui/block';
-import { StarRating } from 'baseui/rating';
-import { Button, SIZE, SHAPE } from 'baseui/button';
-import { Checkbox } from 'baseui/checkbox';
 import { StyledDivider, SIZE as DIVIDER_SIZE } from 'baseui/divider';
 import { useStyletron } from 'baseui';
-import FilmSelect from '../components/FilmSelect';
-import ListItem from '../components/ListItem';
+import MovieForm from '../components/MovieForm';
+import MovieItem from '../components/MovieItem';
+
+const movie1 = {
+  id: 1,
+  title: 'Fullmetal Alchemist: The Final Alchemy (2022)',
+  description:
+    "The Elric brothers' long and winding journey comes to a close in this epic finale, where they must face off against an unworldly, nationwide threat.",
+  rating: 3,
+  tmdbId: 960704,
+  poster: '/AeyiuQUUs78bPkz18FY3AzNFF8b.jpg',
+  watchlist: true,
+};
+
+const movie2 = {
+  id: 2,
+  title: 'Fight Club',
+  description:
+    'A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground "fight clubs" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.',
+  rating: 5,
+  tmdbId: 550,
+  poster: '/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
+  watchlist: false,
+};
 
 const Home: NextPage = () => {
-  const [value, setValue] = useState(4);
-  const [checked, setChecked] = useState(true);
   const [css] = useStyletron();
 
   return (
@@ -22,32 +38,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Films watch list" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Block margin="24px 0">
-        <FilmSelect />
-        <Block
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          margin="18px 0"
-        >
-          <Block display="flex" alignItems="center">
-            <Block marginRight="16px">
-              <Checkbox checked={checked} onChange={() => setChecked(!checked)}>
-                Add to Watchlist
-              </Checkbox>
-            </Block>
-            <StarRating
-              numItems={5}
-              onChange={(data) => setValue(data.value)}
-              size={25}
-              value={value}
-            />
-          </Block>
-          <Button size={SIZE.compact} shape={SHAPE.default}>
-            Save
-          </Button>
-        </Block>
-      </Block>
+      <MovieForm />
       <StyledDivider $size={DIVIDER_SIZE.cell} />
       <ul
         className={css({
@@ -55,8 +46,8 @@ const Home: NextPage = () => {
           margin: '24px 0',
         })}
       >
-        <ListItem />
-        <ListItem />
+        <MovieItem movie={movie1} />
+        <MovieItem movie={movie2} />
       </ul>
     </Fragment>
   );

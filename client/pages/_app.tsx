@@ -1,5 +1,5 @@
 import '../styles/globals.css'; // TODO: Check if we can use baseui global styles
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, DarkTheme, BaseProvider, styled } from 'baseui';
@@ -19,6 +19,25 @@ const AppWrapper = styled('div', ({ $theme }) => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState(THEMES.light);
+
+  useEffect(() => {
+    const preferedTheme = window.matchMedia('(prefers-color-scheme: dark)');
+    setTheme(preferedTheme.matches ? THEMES.dark : THEMES.light);
+
+    const switchTheme = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setTheme(THEMES.dark);
+      } else {
+        setTheme(THEMES.light);
+      }
+    };
+
+    preferedTheme.addEventListener('change', switchTheme);
+
+    return () => {
+      preferedTheme.removeEventListener('change', switchTheme);
+    };
+  }, []);
 
   const handleChangeTheme = (themeName: THEMES) => {
     setTheme(themeName);

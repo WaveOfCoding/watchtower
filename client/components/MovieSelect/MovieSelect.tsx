@@ -24,13 +24,17 @@ const getLabel = ({ option }: any) => {
   );
 };
 
-const FilmSelect = () => {
-  const [value, setValue] = useState<Value>([]);
+interface MovieSelectProps {
+  value: Value;
+  onChange: (value: Value) => void;
+}
+
+const MovieSelect = ({ value, onChange }: MovieSelectProps) => {
   const [inputValue, setInputValue] = useState('');
   const { data, isLoading } = useTMDBSearch(inputValue);
 
-  const handleChange = ({ value }: { value: Value }) => {
-    setValue(value);
+  const handleChange = (data: { value: Value }) => {
+    onChange(data.value);
   };
 
   const handleInputChange = debounce((event: SyntheticEvent) => {
@@ -53,4 +57,4 @@ const FilmSelect = () => {
   );
 };
 
-export default FilmSelect;
+export default MovieSelect;
