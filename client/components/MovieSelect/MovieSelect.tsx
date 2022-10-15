@@ -11,7 +11,10 @@ const getLabel = ({ option }: any) => {
   return (
     <Block display="flex" alignItems="center">
       <Block>
-        <Poster src={`${TMDB_IMAGES.w220}${option.poster_path}`} alt="poster" />
+        <Poster
+          src={`${TMDB_IMAGES.posters.w92}${option.poster_path}`}
+          alt="poster"
+        />
       </Block>
       <Block marginLeft="12px">
         <Title>{option.title}</Title>

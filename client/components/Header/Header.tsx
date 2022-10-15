@@ -1,4 +1,5 @@
 import { SyntheticEvent } from 'react';
+import { useRouter } from 'next/router';
 import { useStyletron } from 'baseui';
 import { AppNavBar, NavItem } from 'baseui/app-nav-bar';
 import { Filter } from 'baseui/icon';
@@ -6,8 +7,9 @@ import { Checkbox, STYLE_TYPE, LABEL_PLACEMENT } from 'baseui/checkbox';
 import { THEMES } from '../../constants';
 
 const mainItems = [
-  { icon: undefined, label: 'About' },
-  { icon: undefined, label: 'Contact us' },
+  { icon: undefined, label: 'Home', info: { link: '/' } },
+  { icon: undefined, label: 'About', info: { link: '/about' } },
+  { icon: undefined, label: 'Contact Us', info: { link: '/contacts' } },
   { icon: Filter, label: 'Theme Switcher', themeSwitcher: true },
 ];
 
@@ -21,10 +23,14 @@ interface HeaderProps {
 }
 
 const Header = ({ onToggleTheme }: HeaderProps) => {
+  const router = useRouter();
   const [, theme] = useStyletron();
 
   const handleMainItemSelect = (item: NavItem) => {
     console.log('on main item select', item);
+    if (item.info?.link) {
+      router.push(item.info.link);
+    }
   };
 
   const handleSwitchTheme = (event: SyntheticEvent) => {
