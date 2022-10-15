@@ -1,6 +1,12 @@
 export const TMDB_API_BASE_URL = 'https://api.themoviedb.org/3';
 export const TMDB_IMAGES = {
-  w220: 'https://image.tmdb.org/t/p/w220_and_h330_face',
+  backdrop: {
+    original: 'https://image.tmdb.org/t/p/original',
+  },
+  posters: {
+    w92: 'https://image.tmdb.org/t/p/w92',
+    w342: 'https://image.tmdb.org/t/p/w342',
+  },
 };
 
 export enum THEMES {

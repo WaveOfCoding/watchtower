@@ -27,7 +27,7 @@ const MovieItem = ({ movie }: MovieItemProps) => {
                 maxWidth: '100%',
                 verticalAlign: 'middle',
               })}
-              src={`${TMDB_IMAGES.w220}${movie.poster}`}
+              src={`${TMDB_IMAGES.posters.w342}${movie.poster}`}
               alt="poster"
             />
           </Block>
