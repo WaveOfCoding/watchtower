@@ -12,12 +12,12 @@ class MovieDetail(APIView):
             rating = request.query_params.get('rating', None)
             if rating is not None:
                 filters['rating'] = rating
-            watch_list = request.query_params.get('watch_list', None)
-            if watch_list is not None:
-                if watch_list == 'true':
-                    filters['watch_list'] = True
+            watchlist = request.query_params.get('watch_list', None)
+            if watchlist is not None:
+                if watchlist == 'true':
+                    filters['watchlist'] = True
                 else:
-                    filters['watch_list'] = False
+                    filters['watchlist'] = False
             movies = WatchList.objects.all().filter(**filters)
 
             serializer = WatchSerializer(movies, many=True)
