@@ -5,6 +5,6 @@ from api.models import WatchList
 class WatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchList
-        fields = '__all__'
+        fields = ['id', 'title', 'poster', 'description', 'tmdbId', 'rating', 'watchlist']
 
 
