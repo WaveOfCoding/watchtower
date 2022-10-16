@@ -16,7 +16,7 @@ const MovieItem = ({ movie }: MovieItemProps) => {
   const [css] = useStyletron();
 
   return (
-    <Link href="/about">
+    <Link href={`/movies/${movie.id}`}>
       <a className={css({ textDecoration: 'none' })}>
         <Block display="flex" alignItems="flex-start" marginBottom="16px">
           <Block>
