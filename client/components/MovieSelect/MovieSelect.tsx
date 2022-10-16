@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { Select, Value } from 'baseui/select';
 import { Block } from 'baseui/block';
 import { TMDB_IMAGES } from '../../constants';
-import { useTMDBSearch } from '../../services/api';
+import { useTMDBSearch } from '../../services/api/tmdb';
 import { Poster, Title, VoteAverage, ReleaseDate } from './styles';
 
 const getLabel = ({ option }: any) => {

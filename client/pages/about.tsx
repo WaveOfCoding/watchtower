@@ -1,12 +1,13 @@
+import type { NextPage } from 'next';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import { HeadingMedium, ParagraphMedium } from 'baseui/typography';
 
-const About = () => {
+const About: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>About watchtower</title>
+        <title>About</title>
         <meta name="description" content="Films watch list" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
