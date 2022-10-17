@@ -1,9 +1,9 @@
 export interface Movie {
-  id: number;
+  id?: number;
   title: string;
   description: string;
-  rating: number;
+  rating?: number;
   tmdbId: number;
   poster: string;
-  watchlist: boolean;
+  watchlist?: boolean;
 }

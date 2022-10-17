@@ -40,15 +40,15 @@ export const Title = styled('h3', ({ $theme }) => {
   };
 });
 
-export const ShortInfo = styled<'span', { hasSeparator?: boolean }>(
+export const ShortInfo = styled<'span', { $hasSeparator?: boolean }>(
   'span',
-  ({ hasSeparator = true, $theme }) => {
+  ({ $hasSeparator = true, $theme }) => {
     return {
       ...$theme.typography.ParagraphMedium,
       color: colors.white,
       margin: 0,
 
-      ...(hasSeparator
+      ...($hasSeparator
         ? {
             ':before': {
               content: '"•"',
