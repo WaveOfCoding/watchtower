@@ -1,5 +1,3 @@
-export const SERVICE_API_BASE_URL = '/api/v1';
-export const TMDB_API_BASE_URL = 'https://api.themoviedb.org/3';
 export const TMDB_IMAGES = {
   backdrop: {
     original: 'https://image.tmdb.org/t/p/original',

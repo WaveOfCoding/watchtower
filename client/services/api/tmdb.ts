@@ -1,38 +1,11 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import useSWR from 'swr';
-import { TMDB_API_BASE_URL } from '../../constants';
+import { tmdbFetcher } from './config';
 
-const axiosInstance = axios.create({
-  baseURL: TMDB_API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
-  },
-});
-
-const fetcher = async (options: AxiosRequestConfig): Promise<AxiosResponse> => {
-  try {
-    const response = await axiosInstance(options);
-    return response.data;
-  } catch (error: any) {
-    return error?.response?.data;
-  }
-};
-
-export interface TMDBSearchResult {
-  data: any; // TODO: define `tmdb` response type
-  isLoading: boolean;
-  error: any; // TODO: define `error` type
-}
-
-export const useTMDBSearch = (query: string): TMDBSearchResult => {
-  const options = {
-    url: '/search/movie',
-    params: {
-      query,
-    },
-  };
-  const { data, error } = useSWR(query ? options : null, fetcher);
+export const useTMDBSearch = (query: string) => {
+  const { data, error } = useSWR(
+    query ? ['/search/movie', { query }] : null,
+    tmdbFetcher
+  );
 
   return {
     data,
@@ -41,17 +14,8 @@ export const useTMDBSearch = (query: string): TMDBSearchResult => {
   };
 };
 
-interface TMDBMovieResult {
-  data: any;
-  isLoading: boolean;
-  error: any;
-}
-
-export const useTMDBMovie = (movieId: string): TMDBMovieResult => {
-  const options = {
-    url: `/movie/${movieId}`,
-  };
-  const { data = {}, error } = useSWR(options, fetcher);
+export const useTMDBMovie = (id?: number) => {
+  const { data, error } = useSWR(id ? `/movie/${id}` : null, tmdbFetcher);
 
   return {
     data,
@@ -60,19 +24,11 @@ export const useTMDBMovie = (movieId: string): TMDBMovieResult => {
   };
 };
 
-interface TMDBMovieCreditsResult {
-  data: any;
-  isLoading: boolean;
-  error: any;
-}
-
-export const useTMDBMovieCredits = (
-  movieId: string
-): TMDBMovieCreditsResult => {
-  const options = {
-    url: `/movie/${movieId}/credits`,
-  };
-  const { data = {}, error } = useSWR(options, fetcher);
+export const useTMDBMovieCredits = (movieId?: number) => {
+  const { data, error } = useSWR(
+    movieId ? `/movie/${movieId}/credits` : null,
+    tmdbFetcher
+  );
 
   return {
     data,

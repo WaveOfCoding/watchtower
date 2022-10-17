@@ -8,6 +8,7 @@ import { ParagraphSmall, LabelLarge, LabelSmall } from 'baseui/typography';
 import { Badge, COLOR } from 'baseui/badge';
 import { StyledDivider, SIZE as DIVIDER_SIZE } from 'baseui/divider';
 import { TMDB_IMAGES } from '../../constants';
+import { useOneMovie } from '../../services/api/movies';
 import { useTMDBMovie, useTMDBMovieCredits } from '../../services/api/tmdb';
 import {
   Backdrop,
@@ -33,8 +34,9 @@ const getDuration = (runtime: number) => {
 const Movie: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading, error } = useTMDBMovie('550');
-  const { data: credits } = useTMDBMovieCredits('550');
+  const { data: movie = {} } = useOneMovie(Number(id));
+  const { data = {}, isLoading, error } = useTMDBMovie(movie.tmdbId);
+  const { data: credits = [] } = useTMDBMovieCredits(movie.tmdbId);
 
   return (
     <Fragment>
@@ -54,7 +56,7 @@ const Movie: NextPage = () => {
             />
             <Block flex="1" marginLeft="18px">
               <Title>{data.title}</Title>
-              <ShortInfo hasSeparator={false}>{data.release_date}</ShortInfo>
+              <ShortInfo $hasSeparator={false}>{data.release_date}</ShortInfo>
               <ShortInfo>
                 {data.genres &&
                   data.genres
