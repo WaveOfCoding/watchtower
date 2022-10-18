@@ -43,10 +43,11 @@ const MovieSelect = ({ value, onChange }: MovieSelectProps) => {
   const handleInputChange = debounce((event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
     setInputValue(target.value);
-  }, 400);
+  }, 300);
 
   return (
     <Select
+      openOnClick={false}
       isLoading={isLoading}
       labelKey="title"
       valueKey="id"
