@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { LightTheme, DarkTheme, BaseProvider, styled } from 'baseui';
 import { Block } from 'baseui/block';
+import { SnackbarProvider, PLACEMENT } from 'baseui/snackbar';
 import { styletron } from '../styletron';
 import { THEMES } from '../constants';
 import Header from '../components/Header';
@@ -46,12 +47,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <StyletronProvider value={styletron}>
       <BaseProvider theme={theme === THEMES.light ? LightTheme : DarkTheme}>
-        <AppWrapper>
-          <Header onToggleTheme={handleChangeTheme} />
-          <Block width={['100%', '480px', '540px', '960px']} margin="0 auto">
-            <Component {...pageProps} />
-          </Block>
-        </AppWrapper>
+        <SnackbarProvider placement={PLACEMENT.topRight}>
+          <AppWrapper>
+            <Header onToggleTheme={handleChangeTheme} />
+            <Block width={['100%', '480px', '540px', '960px']} margin="0 auto">
+              <Component {...pageProps} />
+            </Block>
+          </AppWrapper>
+        </SnackbarProvider>
       </BaseProvider>
     </StyletronProvider>
   );

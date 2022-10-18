@@ -5,14 +5,18 @@ import { Value } from 'baseui/select';
 import { StarRating } from 'baseui/rating';
 import { Button, SIZE, SHAPE } from 'baseui/button';
 import { Checkbox } from 'baseui/checkbox';
+import { useSnackbar } from 'baseui/snackbar';
+import { Check } from 'baseui/icon';
 import MovieSelect from '../MovieSelect';
-import { addMovie } from '../../services/api/movies';
+import { moviesEndpoint, useAddMovie } from '../../services/api/movies';
 
 const MovieForm = () => {
   const [movie, setMovie] = useState<Value>([]);
   const [rating, setRating] = useState<number>(0);
   const [watchlist, setWatchist] = useState<boolean>(true);
-  // const { mutate } = useSWRConfig();
+  const { loading: isAddingMovie, trigger } = useAddMovie();
+  const { mutate } = useSWRConfig();
+  const { enqueue, dequeue } = useSnackbar();
 
   const handleChangeWatchlist = () => {
     setWatchist(!watchlist);
@@ -27,15 +31,23 @@ const MovieForm = () => {
   };
 
   const saveMovie = async () => {
-    await addMovie({
+    await trigger({
       title: movie[0].title,
       description: movie[0].overview,
       rating,
       tmdbId: movie[0].id as number,
-      poster: movie[0].poster_path,
+      poster: movie[0].poster_path || '',
       watchlist,
     });
-    // mutate(MOVIES_ENDPOINT);
+    enqueue({
+      message: 'Successfully added a new movie',
+      startEnhancer: ({ size }) => <Check size={size} />,
+      actionMessage: 'Cancel',
+      actionOnClick: () => {
+        dequeue();
+      },
+    });
+    mutate(moviesEndpoint);
   };
 
   return (
@@ -70,6 +82,7 @@ const MovieForm = () => {
           size={SIZE.compact}
           shape={SHAPE.default}
           disabled={!movie.length}
+          isLoading={isAddingMovie}
           onClick={saveMovie}
         >
           Save
