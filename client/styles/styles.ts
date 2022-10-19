@@ -1,6 +1,6 @@
 import { styled, Theme } from 'baseui';
 import { colors } from 'baseui/tokens';
-import { THEMES } from '../../constants';
+import { THEMES } from '../constants';
 
 export const Backdrop = styled<'div', { $url: string }>('div', (props) => {
   return {
@@ -79,6 +79,7 @@ export const CastImage = styled('img', {
 
 export const CharacterName = styled('p', ({ $theme }) => ({
   ...$theme.typography.ParagraphSmall,
+  color: $theme.name === THEMES.dark ? colors.white : colors.black,
   margin: 0,
 }));
 

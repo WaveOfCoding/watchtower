@@ -36,3 +36,29 @@ export const useTMDBMovieCredits = (movieId?: number) => {
     error,
   };
 };
+
+export const useTMDBMovieVideos = (movieId?: number) => {
+  const { data, error } = useSWR(
+    movieId ? `/movie/${movieId}/videos` : null,
+    tmdbFetcher
+  );
+
+  return {
+    data,
+    isLoading: !error && !data,
+    error,
+  };
+};
+
+export const useTMDBMovieRecommendations = (movieId?: number) => {
+  const { data, error } = useSWR(
+    movieId ? `/movie/${movieId}/recommendations` : null,
+    tmdbFetcher
+  );
+
+  return {
+    data,
+    isLoading: !error && !data,
+    error,
+  };
+};
