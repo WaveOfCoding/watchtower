@@ -9,7 +9,12 @@ import { Badge, COLOR } from 'baseui/badge';
 import { StyledDivider, SIZE as DIVIDER_SIZE } from 'baseui/divider';
 import { TMDB_IMAGES } from '../../constants';
 import { useOneMovie } from '../../services/api/movies';
-import { useTMDBMovie, useTMDBMovieCredits } from '../../services/api/tmdb';
+import {
+  useTMDBMovie,
+  useTMDBMovieCredits,
+  useTMDBMovieVideos,
+  useTMDBMovieRecommendations,
+} from '../../services/api/tmdb';
 import {
   Backdrop,
   BackdropCover,
@@ -22,7 +27,7 @@ import {
   CastImage,
   CharacterName,
   SectionTitle,
-} from './styles';
+} from '../../styles/styles';
 
 const getDuration = (runtime: number) => {
   const minutes = runtime % 60;
@@ -37,6 +42,10 @@ const Movie: NextPage = () => {
   const { data: movie = {} } = useOneMovie(Number(id));
   const { data = {}, isLoading, error } = useTMDBMovie(movie.tmdbId);
   const { data: credits = [] } = useTMDBMovieCredits(movie.tmdbId);
+  const { data: videos } = useTMDBMovieVideos(movie.tmdbId);
+  const { data: recommendations } = useTMDBMovieRecommendations(movie.tmdbId);
+
+  console.log('recommendations', recommendations);
 
   return (
     <Fragment>
@@ -77,6 +86,27 @@ const Movie: NextPage = () => {
             </Block>
           </BackdropCover>
         </Backdrop>
+      </Block>
+      <Block>
+        <SectionTitle>Trailers</SectionTitle>
+        <StyledDivider $size={DIVIDER_SIZE.cell} />
+        <Block display="flex" overflow="auto">
+          {(videos?.results || [])
+            .filter((video: any) => video.site === 'YouTube')
+            .map((video: any) => (
+              <iframe
+                style={{ flexShrink: 0 }}
+                key={video.id}
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${video.key}`}
+                title={video.name}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ))}
+        </Block>
       </Block>
       <Block>
         <SectionTitle>Cast</SectionTitle>

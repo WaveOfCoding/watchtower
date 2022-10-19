@@ -36,7 +36,7 @@ const Home: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Watchtower homepage</title>
+        <title>Homepage</title>
         <meta name="description" content="Films watch list" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
