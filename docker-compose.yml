@@ -34,3 +34,13 @@ services:
     env_file:
       - ./conf/docker/watchtower-app.env
       - ./conf/docker/secrets.env
+
+  watchtower-service:
+    build: "./service"
+    env_file:
+      - ./conf/docker/watchtower-service.env
+      - ./conf/docker/secrets.env
+    ports:
+      - 8001:8000
+    depends_on:
+      - postgres
