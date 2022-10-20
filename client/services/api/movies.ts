@@ -63,3 +63,23 @@ export const useRemoveMovie = () => {
 
   return { loading, error, trigger };
 };
+
+export const useUpdateMovie = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any | null>(null);
+
+  const trigger = async (id: number, movie: any) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      await serviceAxios.put(`/movies/${id}`, movie);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  return { loading, error, trigger };
+};

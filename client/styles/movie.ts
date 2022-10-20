@@ -88,3 +88,14 @@ export const SectionTitle = styled('h4', ({ $theme }) => ({
   color: $theme.name === THEMES.dark ? colors.white : colors.black,
   marginBottom: 0,
 }));
+
+export const RecommendationCard = styled('img', ({ $theme }) => ({
+  borderRadius: '3px',
+  width: '200px',
+}));
+
+export const RecommendationTitle = styled('p', ({ $theme }) => ({
+  ...$theme.typography.LabelSmall,
+  color: $theme.name === THEMES.dark ? colors.white : colors.black,
+  margin: '8px 0 0 0',
+}));
