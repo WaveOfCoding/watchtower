@@ -19,6 +19,7 @@ class MovieDetail(APIView):
                 else:
                     filters['watchlist'] = False
             movies = WatchList.objects.all().filter(**filters)
+            movies = WatchList.objects.order_by('-created_at')
 
             serializer = WatchSerializer(movies, many=True)
             return Response(serializer.data)
