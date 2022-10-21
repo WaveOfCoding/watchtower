@@ -5,7 +5,7 @@ import { Movie } from '../../types';
 
 export const moviesEndpoint = '/movies';
 export const useMovies = () => {
-  const { data, error } = useSWR(moviesEndpoint, serviceFetcher);
+  const { data, error } = useSWR<Array<Movie>>(moviesEndpoint, serviceFetcher);
 
   return {
     data,
@@ -15,7 +15,10 @@ export const useMovies = () => {
 };
 
 export const useOneMovie = (id?: number) => {
-  const { data, error } = useSWR(id ? `/movies/${id}` : null, serviceFetcher);
+  const { data, error } = useSWR<Movie>(
+    id ? `/movies/${id}` : null,
+    serviceFetcher
+  );
 
   return {
     data,

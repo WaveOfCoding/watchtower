@@ -19,6 +19,14 @@ import MovieInfoSkeleton from '../../components/MovieInfoSkeleton';
 import RecommendationsSkeleton from '../../components/RecommendationsSkeleton';
 import CastSkeleton from '../../components/CastSkeleton';
 import {
+  TMDBMovie,
+  TMDBCredits,
+  TMDBCast,
+  TMDBRecommendedMovie,
+  TMDBRecommendations,
+  TMDBVideo,
+} from '../../types';
+import {
   Backdrop,
   BackdropCover,
   Poster,
@@ -41,16 +49,23 @@ const getDuration = (runtime: number) => {
   return `${hours}h ${minutes}m`;
 };
 
-const getCast = (credits: any) => {
+const getCast = (credits: TMDBCredits) => {
   const { cast = [] } = credits || {};
-  const sorted = cast.sort((a: any, b: any) => b.popularity - a.popularity);
+  const sorted = cast.sort(
+    (a: TMDBCast, b: TMDBCast) => (b.popularity || 0) - (a.popularity || 0)
+  );
 
   return sorted.slice(0, 8);
 };
 
-const getRecommendations = (recommendations: any) => {
+const getRecommendations = (
+  recommendations: TMDBRecommendations | undefined
+) => {
   const { results = [] } = recommendations || {};
-  const sorted = results.sort((a: any, b: any) => b.popularity - a.popularity);
+  const sorted = results.sort(
+    (a: TMDBRecommendedMovie, b: TMDBRecommendedMovie) =>
+      (b.popularity || 0) - (a.popularity || 0)
+  );
 
   return sorted.slice(0, 8);
 };
@@ -58,13 +73,15 @@ const getRecommendations = (recommendations: any) => {
 const Movie: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: movie = {} } = useOneMovie(Number(id));
-  const { data = {}, isLoading: isMovieLoading } = useTMDBMovie(movie.tmdbId);
+  const { data: movie } = useOneMovie(Number(id));
+  const { data: tmdbMovie, isLoading: isMovieLoading } = useTMDBMovie(
+    movie?.tmdbId
+  );
   const { data: credits = {}, isLoading: isCreditsLoading } =
-    useTMDBMovieCredits(movie.tmdbId);
-  const { data: videos } = useTMDBMovieVideos(movie.tmdbId);
+    useTMDBMovieCredits(movie?.tmdbId);
+  const { data: videos } = useTMDBMovieVideos(movie?.tmdbId);
   const { data: recommendations, isLoading: isRecommendationsLoading } =
-    useTMDBMovieRecommendations(movie.tmdbId);
+    useTMDBMovieRecommendations(movie?.tmdbId);
 
   const cast = getCast(credits);
   const recs = getRecommendations(recommendations);
@@ -78,38 +95,40 @@ const Movie: NextPage = () => {
       </Head>
       <Block marginTop="16px">
         <Backdrop
-          $url={`${TMDB_IMAGES.backdrop.original}${data.backdrop_path}`}
+          $url={`${TMDB_IMAGES.backdrop.original}${tmdbMovie?.backdrop_path}`}
         >
           <BackdropCover>
             {isMovieLoading && <MovieInfoSkeleton />}
-            {!isMovieLoading && data && (
+            {!isMovieLoading && tmdbMovie && (
               <Fragment>
                 <Poster
-                  src={`${TMDB_IMAGES.posters.w342}${data.poster_path}`}
+                  src={`${TMDB_IMAGES.posters.w342}${tmdbMovie.poster_path}`}
                   alt="poster"
                 />
                 <Block flex="1" marginLeft="18px">
-                  <Title>{data.title}</Title>
+                  <Title>{tmdbMovie.title}</Title>
                   <ShortInfo $hasSeparator={false}>
-                    {data.release_date}
+                    {tmdbMovie.release_date}
                   </ShortInfo>
                   <ShortInfo>
-                    {data.genres &&
-                      data.genres
-                        .map((g: { id: number; name: string }) => g.name)
+                    {tmdbMovie.genres &&
+                      tmdbMovie.genres
+                        .map((g: { id?: number; name?: string }) => g.name)
                         .join(', ')}
                   </ShortInfo>
-                  <ShortInfo>{getDuration(data.runtime)}</ShortInfo>
+                  <ShortInfo>{getDuration(tmdbMovie?.runtime || 0)}</ShortInfo>
                   <Rating>
                     Popularity:{' '}
                     <Badge
                       color={COLOR.positive}
-                      content={`${Math.floor(data.popularity)}%`}
+                      content={`${Math.floor(tmdbMovie?.popularity || 0)}%`}
                     />
                   </Rating>
-                  <Tagline>{data.tagline}</Tagline>
+                  <Tagline>{tmdbMovie.tagline}</Tagline>
                   <LabelLarge color="#fff">Overview</LabelLarge>
-                  <ParagraphSmall color="#fff">{data.overview}</ParagraphSmall>
+                  <ParagraphSmall color="#fff">
+                    {tmdbMovie.overview}
+                  </ParagraphSmall>
                 </Block>
               </Fragment>
             )}
@@ -120,21 +139,22 @@ const Movie: NextPage = () => {
         <SectionTitle>Trailers</SectionTitle>
         <StyledDivider $size={DIVIDER_SIZE.cell} />
         <Block display="flex" overflow="auto">
-          {(videos?.results || [])
-            .filter((video: any) => video.site === 'YouTube')
-            .map((video: any) => (
-              <iframe
-                style={{ flexShrink: 0 }}
-                key={video.id}
-                width="560"
-                height="315"
-                src={`https://www.youtube.com/embed/${video.key}`}
-                title={video.name}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ))}
+          {videos?.results &&
+            videos?.results
+              .filter((video: TMDBVideo) => video.site === 'YouTube')
+              .map((video: TMDBVideo) => (
+                <iframe
+                  style={{ flexShrink: 0 }}
+                  key={video.id}
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${video.key}`}
+                  title={video.name}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ))}
         </Block>
       </Block>
       <Block>
@@ -143,7 +163,7 @@ const Movie: NextPage = () => {
         {isRecommendationsLoading && <RecommendationsSkeleton />}
         {!isRecommendationsLoading && recs.length > 0 && (
           <Block display="flex" overflow="auto" padding="24px 0">
-            {recs.map((rec: any) => (
+            {recs.map((rec: TMDBRecommendedMovie) => (
               <Block key={rec.id} margin="0 8px">
                 <RecommendationCard
                   src={`${TMDB_IMAGES.posters.w342}/${rec.poster_path}`}
@@ -166,7 +186,7 @@ const Movie: NextPage = () => {
             paddingBottom="24px"
             marginTop="24px"
           >
-            {cast.map((c: any) => (
+            {cast.map((c: TMDBCast) => (
               <CastCard key={c.id}>
                 <CastImage
                   src={`${TMDB_IMAGES.profiles.w185}/${c.profile_path}`}

@@ -19,7 +19,7 @@ interface MovieItemProps {
 }
 
 const MovieItem = ({ movie, onRemove }: MovieItemProps) => {
-  const { loading, trigger } = useUpdateMovie();
+  const { trigger } = useUpdateMovie();
   const router = useRouter();
   const [css] = useStyletron();
   const { mutate } = useSWRConfig();
@@ -33,7 +33,7 @@ const MovieItem = ({ movie, onRemove }: MovieItemProps) => {
     }
   };
 
-  const handleNavigateTo = (event: SyntheticEvent) => {
+  const handleNavigateTo = () => {
     router.push(`/movies/${movie.id}`);
   };
 
@@ -79,7 +79,7 @@ const MovieItem = ({ movie, onRemove }: MovieItemProps) => {
                 want to watch
               </Tag>
             ) : (
-              // Hack: basewe doesn't provide event for `onChange` callback
+              // Hack: baseweb doesn't provide event for `onChange` callback
               <div onClick={(event) => event.stopPropagation()}>
                 <StarRating
                   numItems={5}

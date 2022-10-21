@@ -1,4 +1,4 @@
-import axios, { ParamsSerializerOptions } from 'axios';
+import axios from 'axios';
 
 export const tmdbAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_TMDB_API_BASE_URL,
@@ -8,8 +8,9 @@ export const tmdbAxios = axios.create({
   },
 });
 
-export const tmdbFetcher = (url: string, params: any) =>
-  tmdbAxios.get(url, { params }).then((response) => response.data);
+export const tmdbFetcher = <T = any>(url: string, params: any): Promise<T> => {
+  return tmdbAxios.get(url, { params }).then((response) => response.data);
+};
 
 export const serviceAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVICE_API_BASE_URL,
@@ -18,5 +19,9 @@ export const serviceAxios = axios.create({
   },
 });
 
-export const serviceFetcher = (url: string, params: any) =>
-  serviceAxios.get(url, { params }).then((response) => response.data);
+export const serviceFetcher = <T = any>(
+  url: string,
+  params: any
+): Promise<T> => {
+  return serviceAxios.get(url, { params }).then((response) => response.data);
+};

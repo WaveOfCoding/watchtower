@@ -1,8 +1,15 @@
 import useSWR from 'swr';
 import { tmdbFetcher } from './config';
+import {
+  TMDBMovie,
+  TMDBMovies,
+  TMDBCredits,
+  TMDBVideos,
+  TMDBRecommendations,
+} from '../../types';
 
 export const useTMDBSearch = (query: string) => {
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<TMDBMovies>(
     query ? ['/search/movie', { query }] : null,
     tmdbFetcher
   );
@@ -15,7 +22,10 @@ export const useTMDBSearch = (query: string) => {
 };
 
 export const useTMDBMovie = (id?: number) => {
-  const { data, error } = useSWR(id ? `/movie/${id}` : null, tmdbFetcher);
+  const { data, error } = useSWR<TMDBMovie>(
+    id ? `/movie/${id}` : null,
+    tmdbFetcher
+  );
 
   return {
     data,
@@ -25,7 +35,7 @@ export const useTMDBMovie = (id?: number) => {
 };
 
 export const useTMDBMovieCredits = (movieId?: number) => {
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<TMDBCredits>(
     movieId ? `/movie/${movieId}/credits` : null,
     tmdbFetcher
   );
@@ -38,7 +48,7 @@ export const useTMDBMovieCredits = (movieId?: number) => {
 };
 
 export const useTMDBMovieVideos = (movieId?: number) => {
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<TMDBVideos>(
     movieId ? `/movie/${movieId}/videos` : null,
     tmdbFetcher
   );
@@ -51,7 +61,7 @@ export const useTMDBMovieVideos = (movieId?: number) => {
 };
 
 export const useTMDBMovieRecommendations = (movieId?: number) => {
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<TMDBRecommendations>(
     movieId ? `/movie/${movieId}/recommendations` : null,
     tmdbFetcher
   );
