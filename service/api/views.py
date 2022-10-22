@@ -69,3 +69,18 @@ class MovieInfo(APIView):
 
         movies.delete()
         return Response({'msg': 'deleted'}, status=status.HTTP_204_NO_CONTENT)
+
+    def patch(self, request, id):
+        try:
+            movies = WatchList.objects.get(id=id)
+
+        except WatchList.DoesNotExist:
+            msg = {'msg': 'Not Found Error'}
+
+            return Response(msg, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = WatchSerializer(movies, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
