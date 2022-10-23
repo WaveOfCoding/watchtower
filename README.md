@@ -21,6 +21,7 @@ It will up following services:
 - adminer:8082
 - swagger-ui:8088
 - watchtower-app:8080 # FrontEnd application
+- watchtower-service:8001 # BackEnd application
 ```
 
 Application will be available on [http://localhost:8080](http://localhost:8080)
