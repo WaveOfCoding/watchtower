@@ -3,9 +3,10 @@ from rest_framework import status
 from .models import WatchList
 from .serializers import WatchSerializer
 from rest_framework.views import APIView
+from rest_framework.pagination import LimitOffsetPagination
 
 
-class MovieDetail(APIView):
+class MovieDetail(APIView, LimitOffsetPagination):
     def get(self, request, format=None):
         if request.method == 'GET':
             filters = {}
@@ -21,8 +22,9 @@ class MovieDetail(APIView):
             movies = WatchList.objects.all().filter(**filters)
             movies = WatchList.objects.order_by('-created_at')
 
+            movies = self.paginate_queryset(movies, request, view=self)
             serializer = WatchSerializer(movies, many=True)
-            return Response(serializer.data)
+            return self.get_paginated_response(serializer.data)
 
     def post(self, request):
         serializer = WatchSerializer(data=request.data)
