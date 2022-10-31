@@ -1,7 +1,17 @@
-from rest_framework.pagination import PageNumberPagination
+from collections import OrderedDict
+from rest_framework import pagination
+from rest_framework.response import Response
 
 
-class MovieAPIListPagination(PageNumberPagination):
+class MovieAPIListPagination(pagination.PageNumberPagination):
     page_size = 2
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
+
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ('total_results', self.page.paginator.count),
+            ('total_pages', self.page_size),
+            ('page', self.page.number),
+            ('results', data)
+        ]))
+
+
