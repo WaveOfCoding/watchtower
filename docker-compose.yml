@@ -5,6 +5,8 @@ services:
     image: "postgres:latest"
     ports:
       - 5432:5432
+    labels:
+      - traefik.enable=true
     env_file:
       - ./conf/docker/postgres.env
     volumes:
@@ -16,9 +18,8 @@ services:
       - 8082:8080
     labels:
       - traefik.enable=true
-      # - traefik.http.routers.adminer.entrypoints=web
-      - traefik.http.routers.adminer.rule=Host(`localhost`) && PathPrefix(`/adminer`)
-      - traefik.http.services.adminer.loadbalancer.server.port=8080
+      - traefik.http.routers.adminer.rule=Host(`adminer.watchtower.local`)
+      - traefik.port=8082
     links:
       - postgres
 
@@ -28,10 +29,8 @@ services:
       - 8088:8080
     labels:
       - traefik.enable=true
-      # - traefik.http.routers.swagger-ui.entrypoints=web
-      - traefik.http.routers.swagger-ui.rule=Host(`localhost`) && PathPrefix(`/swagger/`)
-      # - traefik.http.middlewares.watchtower-service.stripprefix.prefixes=/swagger
-      - traefik.http.services.swagger-ui.loadbalancer.server.port=8080
+      - traefik.http.routers.docs.rule=Host(`docs.watchtower.local`)
+      - traefik.port=8088
     volumes:
       - ./service/spec/http:/usr/share/nginx/html/swagger # our api.yml now available in internal container folder
     env_file:
@@ -44,9 +43,8 @@ services:
       - 8085:3000
     labels:
       - traefik.enable=true
-      # - traefik.http.routers.watchtower-app.entrypoints=web
-      - traefik.http.routers.watchtower-app.rule=Host(`localhost`) && PathPrefix(`/test`)
-      - traefik.http.services.watchtower-app.loadbalancer.server.port=8080
+      - traefik.http.routers.web.rule=Host(`app.watchtower.local`)
+      - traefik.port=8085
     env_file:
       - ./conf/docker/watchtower-app.env
       - ./conf/docker/secrets.env
@@ -60,12 +58,12 @@ services:
       - 8001:8000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.watchtower-service.rule=Host(`localhost`) && PathPrefix(`/api/v1`)
-      # - traefik.http.middlewares.watchtower-service.stripprefix.prefixes=/api/v1
-      - traefik.http.services.watchtower-service.loadbalancer.server.port=8080
+      - traefik.http.routers.api.rule=Host(`api.watchtower.local`)
+      - traefik.port=8001
     depends_on:
       - postgres
 
+  # https://www.digitalocean.com/community/tutorials/how-to-use-traefik-v2-as-a-reverse-proxy-for-docker-containers-on-ubuntu-20-04
   reverse-proxy:
     image: traefik:v2.9
     # Enables the web UI and tells Traefik to listen to docker
@@ -74,11 +72,9 @@ services:
       - --providers.docker
     ports:
       # The HTTP port
-      - "8080:80"
+      - "80:80"
       # The Web UI (enabled by --api.insecure=true)
-      - "8081:8080"
-    labels:
-      - traefik.enable=false
+      - "8080:8080"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
