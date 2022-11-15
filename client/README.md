@@ -53,4 +53,4 @@ _Info_:
 
 - Add CI stage for type checking `yarn type-check`;
 - Handle errors;
-- Add propet typechecking;
+- Add proper typechecking;

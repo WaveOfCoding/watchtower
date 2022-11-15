@@ -58,6 +58,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
     'http://localhost:3000',
+    'http://localhost:8085',
+    'http://app.watchtower.local'
 ]
 ROOT_URLCONF = 'main.urls'
 
