@@ -4,6 +4,18 @@ Application for managing watch-list
 
 ## Docker environment
 
+### Prerequisites
+
+Add following records into your `hosts` file:
+
+```
+127.0.0.1 watchtower.local
+127.0.0.1 docs.watchtower.local
+127.0.0.1 adminer.watchtower.local
+127.0.0.1 api.watchtower.local
+127.0.0.1 app.watchtower.local
+```
+
 To run environment use following command:
 
 ```sh
@@ -23,4 +35,4 @@ It will up following services:
 - watchtower-app:8080 # FrontEnd application
 ```
 
-Application will be available on [http://localhost:8080](http://localhost:8080)
+Application will be available on [http://localhost:8085](http://localhost:8085) or [http://app.watchtower.local](http://app.watchtower.local)
