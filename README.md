@@ -14,6 +14,7 @@ Add following records into your `hosts` file:
 127.0.0.1 adminer.watchtower.local
 127.0.0.1 api.watchtower.local
 127.0.0.1 app.watchtower.local
+127.0.0.1 traefik.watchtower.local
 ```
 
 To run environment use following command:
