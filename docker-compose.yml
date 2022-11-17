@@ -28,6 +28,8 @@ services:
     ports:
       - 8088:8080
     labels:
+      # Can't access from traefik network, use `http://localhost:8088` instead
+      # https://gist.github.com/syntaqx/5494829d23fc5cf3619cb07e66cdcc9e
       - traefik.enable=true
       - traefik.http.routers.docs.rule=Host(`docs.watchtower.local`)
       - traefik.port=8088
@@ -75,6 +77,9 @@ services:
       - "80:80"
       # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
+    labels:
+      - traefik.http.routers.reverse-proxy.rule=Host(`traefik.watchtower.local`)
+      - traefik.http.routers.reverse-proxy.service=api@internal
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
