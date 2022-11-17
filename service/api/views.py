@@ -3,10 +3,10 @@ from rest_framework import status
 from .models import WatchList
 from .serializers import WatchSerializer
 from rest_framework.views import APIView
-from rest_framework.pagination import LimitOffsetPagination
+from api.paginations import MovieAPIListPagination
 
 
-class MovieDetail(APIView, LimitOffsetPagination):
+class MovieDetail(APIView, MovieAPIListPagination):
     def get(self, request, format=None):
         if request.method == 'GET':
             filters = {}
