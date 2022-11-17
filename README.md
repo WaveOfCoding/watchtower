@@ -38,3 +38,7 @@ It will up following services:
 ```
 
 Application will be available on [http://localhost:8085](http://localhost:8085) or [http://app.watchtower.local](http://app.watchtower.local)
+
+## Application UI Overview
+
+You can check how fronend application looks like [here](/assets/OVERVIEW.md)
