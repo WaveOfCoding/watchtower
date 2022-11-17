@@ -6,7 +6,7 @@
 
 ### Movie detailed info
 
-![detailed info dark theme](./watchtower-dark-more.png)
+![detailed info dark theme](./watchtower-dark-more.jpeg)
 
 ## Watchtower light theme
 
@@ -16,4 +16,4 @@
 
 ### Watchtower light theme
 
-![detailed info light theme](./watchtower-light-1.png)
+![detailed info light theme](./watchtower-light-1.jpeg)
